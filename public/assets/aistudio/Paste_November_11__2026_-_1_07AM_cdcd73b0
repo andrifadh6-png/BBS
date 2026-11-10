@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f2547">
+<title>DRIVER BBS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0f2547;--yel:#ffc400;--bg:#eef1f5;--ink:#14213a;--mu:#5a6a82;--ln:#d3dae5;--blu:#1f5fd0;--amb:#f2a900;--grn:#1b8a4b;--red:#c62f2f;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 "Barlow",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-text-size-adjust:100%}
+h1,h2,h3,.num{font-family:"Barlow Condensed","Arial Narrow",system-ui,sans-serif}
+:focus-visible{outline:3px solid var(--blu);outline-offset:2px}
+.plate{display:inline-block;background:var(--yel);color:var(--navy);font:700 22px/1 "Barlow Condensed","Arial Narrow",sans-serif;letter-spacing:.05em;padding:5px 12px;border:2px solid #0b1a33;border-radius:6px;outline:2px solid #fff}
+.plate.big{font-size:44px;padding:8px 20px;border-width:3px;outline-width:3px}
+.hdr{background:var(--navy);color:#fff;padding:calc(12px + env(safe-area-inset-top,0px)) 14px 0;position:sticky;top:0;z-index:20}
+.r1{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.who{display:flex;align-items:center;gap:10px;font-size:14px;color:#c4d0e4}
+.who button{background:none;border:1px solid #4a6290;color:#fff;border-radius:6px;padding:5px 10px;font:600 13px "Barlow",sans-serif}
+.strip{display:flex;margin:12px -14px 0;border-top:1px solid #254172}
+.strip div{flex:1;padding:8px 0 9px;text-align:center;border-right:1px solid #254172}.strip div:last-child{border:0}
+.strip b{display:block;font:700 26px/1 "Barlow Condensed",sans-serif;color:var(--yel)}.strip span{font-size:13px;color:#b9c6dd}
+main{max-width:640px;margin:0 auto;padding:12px 14px calc(150px + env(safe-area-inset-bottom,0px))}
+label{display:block;font-size:14px;font-weight:600}
+input,textarea,select{width:100%;min-height:46px;padding:10px;border:2px solid var(--ln);border-radius:6px;background:#fff;color:var(--ink);font:inherit;margin:3px 0 10px}
+input:focus,textarea:focus,select:focus{border-color:var(--navy);outline:0}
+.btn{display:flex;align-items:center;justify-content:center;text-align:center;min-height:48px;padding:0 12px;border:2px solid var(--navy);border-radius:6px;font:700 17px "Barlow",sans-serif;background:#fff;color:var(--navy);text-decoration:none;cursor:pointer}
+.btn.y{background:var(--yel)}.btn.n{background:var(--navy);color:#fff}.btn:disabled{opacity:.5}
+.btn.t{min-height:36px;border:0;background:none;font-size:15px;text-decoration:underline;padding:0 4px}.red{color:var(--red)}.btn.red{border-color:var(--red)}.btn.t.red{border:0}
+.tk{background:#fff;border:1px solid var(--ln);border-left:6px solid var(--amb);border-radius:6px;padding:12px;margin-bottom:10px}
+.tk.jalan{border-left-color:var(--blu)}.tk.selesai{border-left-color:var(--grn)}.tk.gagal{border-left-color:var(--red)}
+.hd{display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.hd h3{margin:0;font-size:24px;line-height:1.1;font-weight:700}
+.stl{font-weight:700;font-size:14px;white-space:nowrap}.baru .stl{color:#8a5d00}.jalan .stl{color:var(--blu)}.selesai .stl{color:var(--grn)}.gagal .stl{color:var(--red)}
+.ad{margin:4px 0 8px}.kv{font-size:14px;color:var(--mu);display:flex;gap:8px}.kv span{width:86px;flex:none}.kv i{font-style:normal;color:var(--ink)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.sub{display:flex;gap:12px;flex-wrap:wrap;margin-top:6px;align-items:center}
+.empty{text-align:center;padding:36px 12px;color:var(--mu)}.empty b{display:block;font:700 22px "Barlow Condensed",sans-serif;color:var(--ink)}
+.dh{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid var(--navy);margin:16px 0 4px}.dh h2{margin:0;font-size:22px}
+.dr{font-weight:700;margin:10px 0 2px}.dr span{font-weight:400;color:var(--mu)}
+.lr{display:grid;grid-template-columns:54px 1fr auto;gap:8px;padding:7px 0;border-bottom:1px solid var(--ln);align-items:start}
+.lr .num{font-size:19px;font-weight:700}.lr small{display:block;color:var(--mu)}.lr a{color:var(--blu);font-weight:600}
+.nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:2px solid var(--navy);display:flex;padding-bottom:env(safe-area-inset-bottom,0px);z-index:20}
+.nv{flex:1;border:0;background:none;padding:8px 0 7px;display:flex;flex-direction:column;align-items:center;gap:2px;font:600 12px "Barlow",sans-serif;color:var(--mu)}
+.nv svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.nv.on{color:var(--navy);box-shadow:inset 0 3px 0 var(--yel)}
+.fab{position:fixed;right:14px;bottom:calc(74px + env(safe-area-inset-bottom,0px));z-index:19;padding:0 18px;box-shadow:0 0 0 3px var(--navy)}
+.sheet,.ov{position:fixed;inset:0;background:rgba(15,37,71,.6);display:none;z-index:40}.sheet.on{display:flex;align-items:flex-end}.ov.on{display:flex;align-items:center;justify-content:center;padding:16px;z-index:60}
+.pn{background:#fff;width:100%;max-width:640px;margin:0 auto;border-radius:14px 14px 0 0;padding:14px 14px calc(16px + env(safe-area-inset-bottom,0px));max-height:92%;overflow:auto}
+.dlg{background:#fff;border-radius:10px;padding:16px;max-width:420px;width:100%;max-height:90%;overflow:auto}.dlg .acts{margin-top:8px}
+.big{width:100%;border-radius:6px;margin-bottom:10px}
+.seg{display:flex;border:2px solid var(--navy);border-radius:6px;overflow:hidden;margin:10px 0 12px}.seg button{flex:1;min-height:42px;border:0;background:#fff;font:700 15px "Barlow",sans-serif;color:var(--navy)}.seg .on{background:var(--navy);color:#fff}
+#toast{position:fixed;left:12px;right:12px;bottom:calc(80px + env(safe-area-inset-bottom,0px));background:var(--navy);color:#fff;padding:12px 14px;border-radius:6px;display:none;z-index:70;font-weight:500;border-left:6px solid var(--yel)}
+#toast.on{display:block}#toast.bad{background:var(--red);border-left-color:#fff}
+#login{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:20px;z-index:100}
+#login .box{background:#fff;border-radius:10px;padding:16px;width:100%;max-width:380px}
+.mu{color:var(--mu)}
+@media (prefers-reduced-motion:no-preference){.tk{animation:in .18s ease-out}@keyframes in{from{opacity:.4}to{opacity:1}}}
+</style></head><body>
+
+<div id="login">
+ <span class="plate big">DRIVER BBS</span>
+ <div class="box" style="text-align:center">
+  <h3 style="margin-top:0;color:var(--navy)">Pilih Akses Masuk</h3>
+  <p class="mu" style="margin-bottom:16px;font-size:14px">Silakan pilih peran Anda untuk mulai menggunakan aplikasi:</p>
+  <button class="btn n" type="button" style="width:100%;margin-bottom:10px" onclick="startDirect('owner')">Masuk sebagai Owner / Staff</button>
+  <button class="btn y" type="button" style="width:100%;color:var(--navy)" onclick="startDirect('driver')">Masuk sebagai Driver</button>
+  <button class="btn t" type="button" style="margin-top:8px" onclick="document.getElementById('cfgp').style.display='block'">Pengaturan koneksi</button>
+  <div id="cst" class="mu" style="font-size:14px;margin-top:4px;min-height:20px"></div>
+  <div id="cfgp" style="display:none;text-align:left;margin-top:8px">
+   <label for="cu">Project URL</label><input id="cu" placeholder="https://xxxx.supabase.co" autocapitalize="off" autocorrect="off">
+   <label for="ck">Publishable key</label><input id="ck" placeholder="sb_publishable_..." autocapitalize="off" autocorrect="off">
+   <button class="btn n" type="button" style="width:100%" onclick="saveCfg()">Simpan dan tes koneksi</button>
+  </div>
+ </div>
+</div>
+
+<header class="hdr" id="hdr" style="display:none">
+ <div class="r1"><span class="plate">DRIVER BBS</span><span class="who"><span id="role"></span><button id="out" type="button">Ganti Peran</button></span></div>
+ <div id="sum" class="strip"></div>
+</header>
+
+<main id="app" style="display:none">
+ <div id="msg" class="mu"></div>
+ <label for="fdr">Driver</label><select id="fdr"></select>
+ <div id="rdw" style="display:none"><label for="rd">Tanggal</label><input id="rd" type="date"></div>
+ <input id="q" placeholder="Cari tujuan, alamat, atau driver" style="display:none" aria-label="Cari riwayat">
+ <div id="list"></div>
+ <section id="rekap" style="display:none">
+  <div class="tk" style="border-left-color:var(--navy)"><h3 style="margin:0 0 4px;font-size:24px">Rekap harian</h3><p class="mu" style="margin:0 0 10px">PDF berisi semua pengantaran pada tanggal terpilih, lengkap dengan foto bukti. Driver mengikuti pilihan di atas.</p><button id="pdf" class="btn n" type="button" style="width:100%">Unduh PDF dengan foto bukti</button></div>
+  <div id="zone" class="tk" style="border-left-color:var(--red);display:none"><h3 style="margin:0 0 4px;font-size:24px">Reset data</h3><p class="mu" style="margin:0 0 10px">Menghapus order beserta fotonya. Unduh PDF dulu, data yang dihapus tidak bisa dikembalikan.</p><div class="acts"><button id="rs" class="btn" type="button">Reset tanggal ini</button><button id="ra" class="btn red" type="button">Hapus semua</button></div></div>
+ </section>
+</main>
+
+<button id="fab" class="btn y fab" type="button" style="display:none">+ Order baru</button>
+
+<nav class="nav" id="nav" style="display:none">
+ <button class="nv on" data-t="aktif" type="button"><svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>Aktif</button>
+ <button class="nv" data-t="selesai" type="button"><svg viewBox="0 0 24 24"><path d="M4 12l5 5L20 6"/></svg>Selesai</button>
+ <button class="nv" data-t="riw" type="button"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Riwayat</button>
+ <button class="nv" data-t="rekap" type="button"><svg viewBox="0 0 24 24"><path d="M6 3h8l5 5v13H6z"/><path d="M14 3v5h5"/></svg>Rekap</button>
+</nav>
+
+<div id="sheet" class="sheet"><div class="pn">
+ <div class="hd"><h2 style="margin:0;font-size:26px">Order baru</h2><button id="shx" class="btn t" type="button">Tutup</button></div>
+ <div class="seg"><button id="s1" class="on" type="button">Satu order</button><button id="s2" type="button">Banyak sekaligus</button></div>
+ <div id="p1">
+  <label for="f_nm">Tujuan atau nama penerima</label><input id="f_nm">
+  <label for="f_ad">Alamat lengkap</label><textarea id="f_ad" rows="2"></textarea>
+  <label for="f_ll">Titik lokasi: link Google Maps atau koordinat</label><input id="f_ll" placeholder="https://www.google.com/maps/... atau -6.2088, 106.8456">
+  <button class="btn" id="here" type="button" style="width:100%;margin-bottom:4px">Pakai lokasi saya sekarang</button><div id="llok" class="mu" style="min-height:22px;font-size:14px"></div>
+  <label for="f_dr">Nama driver</label><input id="f_dr" list="drs"><datalist id="drs"></datalist>
+  <label for="f_tl">Telepon penerima (opsional)</label><input id="f_tl" inputmode="tel">
+  <label for="f_nt">Catatan atau barang</label><input id="f_nt">
+  <button id="save" class="btn n" type="button" style="width:100%">Simpan order</button>
+ </div>
+ <div id="p2" style="display:none">
+  <p class="mu" style="margin:0 0 6px">Satu order per baris, dipisah tanda |. Urutan: Tujuan | Alamat | Link Maps atau koordinat | Driver | Catatan. Hanya Tujuan dan Alamat yang wajib.</p>
+  <textarea id="bulk" rows="6" placeholder="PT Maju | Jl. Sudirman 10 | -6.2088, 106.8456 | Budi | 2 dus"></textarea>
+  <label for="b_dr">Driver untuk baris tanpa nama driver</label><input id="b_dr" list="drs">
+  <button id="bsave" class="btn n" type="button" style="width:100%">Simpan semua order</button>
+ </div>
+</div></div>
+
+<input type="file" id="cam" accept="image/*" capture="environment" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" tabindex="-1">
+<div id="toast" role="status"></div><div id="ov" class="ov"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+const SUPABASE_URL="https://jauumbdwnnaukohhxtbd.supabase.co";
+const SUPABASE_KEY="sb_publishable_xohlaN0NiWhb6pejZeZTzA_aPUt7WvL";
+
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const today=()=>new Date().toLocaleDateString("sv");
+const dOf=o=>new Date(o.doneAt||o.at).toLocaleDateString("sv");
+const hm=t=>t?new Date(t).toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"}):"-";
+const fmtD=d=>new Date(d+"T00:00:00").toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+
+let sb=null,isOwner=true,orders=[],tab="aktif",drv="",pend=null,busy=false,tt=null,started=false;
+let cfg={u:SUPABASE_URL,k:SUPABASE_KEY};
+try{const c=JSON.parse(localStorage.getItem("sbcfg2")||"null");if(c&&c.u&&c.k)cfg=c}catch(e){}
+function mk(){try{sb=window.supabase.createClient(cfg.u,cfg.k)}catch(e){console.error(e);sb=null}}
+mk();
+async function testCfg(){const t=$("cst");t.textContent="Mengecek koneksi…";
+ try{const r=await fetch(cfg.u+"/rest/v1/orders?select=id&limit=1",{headers:{apikey:cfg.k}});
+  if(r.ok)t.textContent="Koneksi OK";
+  else if(r.status===401||r.status===403)t.textContent="Akses ditolak ("+r.status+"). Cek publishable key dan policy RLS.";
+  else if(r.status===404)t.textContent="Tabel orders tidak ditemukan. Jalankan SQL pembuatan tabel.";
+  else t.textContent="Server membalas "+r.status+": "+(await r.text()).slice(0,120)
+ }catch(e){t.textContent="Tidak bisa terhubung ke "+cfg.u+". Cek Project URL di Pengaturan koneksi."}}
+async function saveCfg(){let u=$("cu").value.trim().replace(/\/+$/,""),k=$("ck").value.trim();
+ if(u&&!/^https?:\/\//.test(u))u="https://"+u;
+ cfg={u:u||cfg.u,k:k||cfg.k};
+ try{localStorage.setItem("sbcfg2",JSON.stringify(cfg))}catch(e){}
+ mk();await testCfg()}
+$("cu").value=cfg.u;$("ck").value=cfg.k;
+
+async function startDirect(roleChoice){
+  if(started)return;
+  if(!sb)return alert("Koneksi Supabase gagal dibuat. Muat ulang halaman.");
+  started=true;
+  isOwner = (roleChoice === 'owner');
+  $("login").style.display="none";
+  ["hdr","nav"].forEach(i=>$(i).style.display="block");
+  $("nav").style.display="flex";
+  $("app").style.display="block";
+  $("role").textContent=isOwner?"Owner / Staff":"Driver";
+  $("zone").style.display=isOwner?"block":"none";
+
+  if(!isOwner){try{drv=localStorage.getItem("drv")||""}catch(e){}}
+  await load();
+
+  try{sb.channel("orders-live").on("postgres_changes",{event:"*",schema:"public",table:"orders"},()=>{if(!busy)load()}).subscribe()}catch(e){console.error(e)}
+  setInterval(()=>{if(!busy&&!document.hidden)load()},20000);
+}
+
+const getPhoto=async(id)=>{const r=await sb.from("photos").select("data").eq("order_id",id).maybeSingle();return r.data?r.data.data:null};
+const showPhoto=async(id)=>{try{const d=await getPhoto(id);if(!d)return toast("Foto tidak ditemukan.",1);const o=$("ov");o.innerHTML='<div class="dlg"><img class="big" alt="Foto bukti antar" src="'+esc(d)+'"><button id="c" class="btn n" type="button" style="width:100%">Tutup</button></div>';o.className="ov on";$("c").onclick=()=>o.className="ov"}catch(e){toast("Foto gagal dimuat. Coba lagi.",1)}};
+const parseLoc=(s)=>{s=(s||"").trim();if(!s)return null;const m=s.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||s.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)||s.match(/[?&](?:q|query|ll|destination)=(-?\d+\.\d+)(?:,|%2C)(-?\d+\.\d+)/)||s.match(/^(-?\d+\.\d+)\s*[,; ]\s*(-?\d+\.\d+)$/);return m?{lat:+m[1],lng:+m[2]}:null};
+
+const getMapsCoords=(o)=>{if(o.lat!=null)return o.lat+","+o.lng;return null};
+const getQueryAddr=(o)=>encodeURIComponent(o.addr||"");
+
+const pos=()=>new Promise(r=>{try{navigator.geolocation.getCurrentPosition(p=>r({lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6)}),()=>r(null),{enableHighAccuracy:true,timeout:8000})}catch(e){r(null)}});
+const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+
+async function shrink(f){
+ const url=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=()=>rej(new Error("Foto tidak terbaca"));r.readAsDataURL(f)});
+ const im=await loadImg(url);if(!im)throw new Error("Format foto tidak didukung");
+ let s=Math.min(1,900/Math.max(im.width,im.height)),q=.7,d="";
+ for(let i=0;i<5;i++){const c=document.createElement("canvas");c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext("2d").drawImage(im,0,0,c.width,c.height);d=c.toDataURL("image/jpeg",q);if(d.length<170000)break;s*=.8;q-=.08}
+ return d;
+}
+
+const mapRow=r=>({id:r.id,name:r.name,addr:r.addr,tel:r.tel,driver:r.driver,note:r.note,st:r.st,lat:r.lat,lng:r.lng,link:r.link,at:r.at,startAt:r.start_at,doneAt:r.done_at,dLat:r.d_lat,dLng:r.d_lng,dAt:r.d_at,hasPhoto:r.has_photo,failReason:r.fail_reason});
+const ok=r=>{if(r.error)throw r.error;return r.data};
+
+function toast(m,bad){const t=$("toast");t.textContent=m;t.className="on"+(bad?" bad":"");clearTimeout(tt);tt=setTimeout(()=>t.className="",bad?6000:3000)}
+function ask(t,yes){return new Promise(res=>{const o=$("ov");o.innerHTML='<div class="dlg"><p style="margin:0 0 12px">'+esc(t)+'</p><div class="acts"><button class="btn" id="n" type="button">Batal</button><button class="btn n" id="y" type="button">'+esc(yes||"Lanjut")+'</button></div></div>';o.className="ov on";$("y").onclick=()=>{o.className="ov";res(true)};$("n").onclick=()=>{o.className="ov";res(false)}})}
+
+async function askReason(){return new Promise(res=>{const o=$("ov");o.innerHTML='<div class="dlg"><h3 style="margin-top:0;color:var(--red)">Kendala Pengiriman</h3><p class="mu" style="font-size:14px;margin-bottom:8px">Tuliskan alasan mengapa paket gagal dikirim:</p><textarea id="freason" rows="3" placeholder="Contoh: Penerima tidak ada di tempat / Alamat tidak ditemukan" style="width:100%"></textarea><div class="acts"><button class="btn" id="fn" type="button">Batal</button><button class="btn red" id="fy" type="button" style="color:#fff">Simpan Kendala</button></div></div>';o.className="ov on";$("fy").onclick=()=>{const val=$("freason").value.trim();o.className="ov";res(val||"Gagal dikirim")};$("fn").onclick=()=>{o.className="ov";res(null)}})}
+
+async function load(){try{orders=ok(await sb.from("orders").select("*").order("at",{ascending:false}).limit(1000)).map(mapRow);render()}catch(e){toast("Data gagal dimuat: "+(e.message||e),1)}}
+const upd=async(id,o)=>ok(await sb.from("orders").update(o).eq("id",id));
+
+function card(o){
+ const lab={baru:"Baru",jalan:"Sedang diantar",selesai:"Selesai",gagal:"Gagal / Kendala"}[o.st],id=' data-id="'+o.id+'"';
+ 
+ // Navigasi Fleksibel: Google Maps, Waze, atau Salin Alamat
+ const coords=getMapsCoords(o), qAddr=getQueryAddr(o);
+ const gMapsUrl=coords?"https://www.google.com/maps/dir/?api=1&destination="+coords:(/^https?:\/\//.test(o.link||"")?o.link:"https://www.google.com/maps/search/?api=1&query="+qAddr);
+ const wazeUrl=coords?"https://waze.com/ul?ll="+coords+"&navigate=yes":"https://waze.com/ul?q="+qAddr+"&navigate=yes";
+ 
+ const mapsBtns='<div style="display:flex;gap:4px;flex:1"><a class="btn y" style="flex:1" href="'+esc(gMapsUrl)+'" target="_blank" rel="noopener">G. Maps</a><a class="btn" style="flex:1;background:#33ccff;color:#0f2547;border-color:#0f2547" href="'+esc(wazeUrl)+'" target="_blank" rel="noopener">Waze</a><button class="btn t" data-a="copy"'+id+' type="button" title="Salin Alamat">Salin</button></div>';
+
+ let main="",sub="";
+ if(o.st==="baru")main='<button class="btn n" data-a="go"'+id+' type="button">Mulai antar</button>';
+ if(o.st==="jalan"){
+  main='<button class="btn n" data-a="photo"'+id+' type="button">Foto & Selesai</button>';
+  sub+='<button class="btn t" data-a="done"'+id+' type="button">Selesai tanpa foto</button><button class="btn t red" data-a="fail"'+id+' type="button">Kendala / Gagal</button><button class="btn t" data-a="loc"'+id+' type="button">Kirim posisi</button>';
+ }
+ if(o.st==="selesai")main=o.hasPhoto?'<button class="btn" data-a="view"'+id+' type="button">Lihat foto</button>':'<span></span>';
+ if(o.st==="gagal")main='<span style="font-size:14px;color:var(--red)">Alasan: <b>'+esc(o.failReason||"-")+'</b></span>';
+ 
+ if(isOwner)sub+='<button class="btn t red" data-a="del"'+id+' type="button">Hapus</button>';
+ 
+ const kv=(k,v)=>'<div class="kv"><span>'+k+'</span><i>'+v+'</i></div>';
+ return '<article class="tk '+o.st+'"><div class="hd"><h3>'+esc(o.name)+'</h3><span class="stl">'+lab+'</span></div><p class="ad">'+esc(o.addr)+'</p>'
+ +kv("Driver",esc(o.driver||"Belum ditentukan"))+(o.tel?kv("Telepon",esc(o.tel)):"")+(o.note?kv("Catatan",esc(o.note)):"")
+ +kv("Titik",o.lat!=null?"Akurat":"Belum ada titik, Maps memakai alamat")
+ +(o.dLat!=null&&o.st==="jalan"?kv("Posisi driver",hm(o.dAt)+' <a href="https://www.google.com/maps/search/?api=1&query='+o.dLat+','+o.dLng+'" target="_blank" rel="noopener">lihat di Maps</a>'):"")
+ +(o.doneAt?kv("Selesai",new Date(o.doneAt).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"})):"")
+ +'<div class="acts">'+mapsBtns+main+'</div>'+(sub?'<div class="sub">'+sub+'</div>':"")+'</article>';
+}
+
+function hist(){
+ const q=($("q").value||"").toLowerCase(),all=orders.filter(o=>(o.st==="selesai"||o.st==="gagal")&&(!drv||o.driver===drv)&&(!q||[o.name,o.addr,o.driver,o.note,o.failReason].join(" ").toLowerCase().includes(q)));
+ if(!all.length)return'<div class="empty"><b>Belum ada riwayat</b>Order yang selesai atau berkendala akan muncul di sini.</div>';
+ const by={};for(const o of all){const d=dOf(o),r=o.driver||"Tanpa driver";by[d]=by[d]||{};(by[d][r]=by[d][r]||[]).push(o)}
+ return Object.keys(by).sort().reverse().map(d=>{const g=by[d],tot=Object.values(g).reduce((s,a)=>s+a.length,0);
+  return'<section><div class="dh"><h2>'+fmtD(d)+'</h2><span class="mu">'+tot+' order</span></div>'+Object.keys(g).sort().map(r=>'<div class="dr">'+esc(r)+' <span>('+g[r].length+')</span></div>'+g[r].sort((a,b)=>(a.doneAt||0)-(b.doneAt||0)).map(o=>'<div class="lr"><b class="num">'+hm(o.doneAt||o.at)+'</b><div>'+esc(o.name)+' <small style="color:var(--'+(o.st==="gagal"?'red':'mu')+')">['+(o.st.toUpperCase())+']</small><small>'+esc(o.addr)+'</small></div>'+(o.hasPhoto?'<a href="#" data-a="view" data-id="'+o.id+'">Foto</a>':"<span></span>")+'</div>').join("")).join("")+"</section>"}).join("");
+}
+
+function render(){
+ const day=$("rd").value||today(),act=orders.filter(o=>o.st!=="selesai"&&o.st!=="gagal").sort((a,b)=>(a.st==="jalan"?0:1)-(b.st==="jalan"?0:1)),dn=orders.filter(o=>(o.st==="selesai"||o.st==="gagal")&&dOf(o)===day);
+ $("sum").innerHTML=[["Baru",orders.filter(o=>o.st==="baru").length],["Jalan",orders.filter(o=>o.st==="jalan").length],["Selesai",orders.filter(o=>o.st==="selesai"&&dOf(o)===day).length],["Gagal",orders.filter(o=>o.st==="gagal"&&dOf(o)===day).length]].map(a=>'<div><b>'+a[1]+'</b><span>'+a[0]+'</span></div>').join("");
+ const names=[...new Set(orders.map(o=>o.driver).filter(Boolean))].sort();if(drv&&!names.includes(drv))names.push(drv);
+ $("drs").innerHTML=names.map(n=>'<option value="'+esc(n)+'">').join("");
+ $("fdr").innerHTML='<option value="">Semua driver</option>'+names.map(n=>'<option'+(n===drv?" selected":"")+'>'+esc(n)+'</option>').join("");
+ document.querySelectorAll(".nv").forEach(b=>b.classList.toggle("on",b.dataset.t===tab));
+ $("rdw").style.display=tab==="selesai"||tab==="rekap"?"block":"none";$("q").style.display=tab==="riw"?"block":"none";
+ $("list").style.display=tab==="rekap"?"none":"block";$("rekap").style.display=tab==="rekap"?"block":"none";$("fab").style.display=isOwner&&tab!=="rekap"?"flex":"none";
+ const l=(tab==="aktif"?act:dn).filter(o=>!drv||o.driver===drv);
+ const emp=tab==="aktif"?'<div class="empty"><b>Tidak ada order aktif</b>'+(isOwner?"Tekan Order baru untuk menambah.":"Tunggu order dari owner.")+'</div>':'<div class="empty"><b>Belum ada riwayat</b>Tidak ada pengantaran pada tanggal ini.</div>';
+ $("list").innerHTML=tab==="riw"?hist():l.length?l.map(card).join(""):emp;
+}
+
+async function wipe(list,label){
+ if(busy)return;if(!isOwner)return toast("Reset hanya untuk owner.",1);
+ if(!list.length)return toast("Tidak ada order untuk dihapus.",1);
+ if(!await ask("Hapus "+list.length+" order "+label+" beserta fotonya? Pastikan PDF sudah diunduh. Data tidak bisa dikembalikan.","Hapus"))return;
+ busy=true;try{ok(await sb.from("orders").delete().in("id",list.map(o=>o.id)));toast(list.length+" order dihapus");await load()}catch(err){toast("Gagal menghapus: "+(err.message||err),1)}finally{busy=false}
+}
+
+document.body.onclick=async e=>{
+ const b=e.target.closest("[data-a]");if(!b)return;e.preventDefault();const a=b.dataset.a,id=b.dataset.id;
+ if(a==="view")return showPhoto(id);
+ if(a==="copy"){const o=orders.find(x=>x.id===id);if(o){navigator.clipboard.writeText(o.name+"\n"+o.addr);toast("Alamat disalin ke clipboard!")};return}
+ if(a==="photo"){pend=id;$("cam").value="";$("cam").click();return}
+ if(busy)return;busy=true;
+ try{
+  if(a==="go"){await upd(id,{st:"jalan",start_at:Date.now()});toast("Pengantaran dimulai");await load();pos().then(p=>p&&upd(id,{d_lat:p.lat,d_lng:p.lng,d_at:Date.now()}).catch(()=>{}))}
+  else if(a==="done"){await upd(id,{st:"selesai",done_at:Date.now()});toast("Order selesai");await load()}
+  else if(a==="fail"){const reason=await askReason();if(reason){await upd(id,{st:"gagal",done_at:Date.now(),fail_reason:reason});toast("Order dilaporkan gagal/kendala",1);await load()}}
+  else if(a==="loc"){toast("Membaca lokasi…");const p=await pos();if(p){await upd(id,{d_lat:p.lat,d_lng:p.lng,d_at:Date.now()});toast("Posisi terkirim");await load()}else toast("Lokasi tidak terbaca. Izinkan akses lokasi di browser.",1)}
+  else if(a==="del"){if(await ask("Hapus order ini?","Hapus")){ok(await sb.from("orders").delete().eq("id",id));toast("Order dihapus");await load()}}
+ }catch(err){toast("Gagal: "+(err.message||err),1)}finally{busy=false}
+};
+
+$("cam").onchange=async e=>{const f=e.target.files[0],id=pend;pend=null;if(!f||!id||busy)return;busy=true;
+ try{toast("Memproses foto…");const data=await shrink(f);toast("Menyimpan foto…");
+  ok(await sb.from("photos").upsert({order_id:id,data,at:Date.now()}));
+  await upd(id,{st:"selesai",done_at:Date.now(),has_photo:true});toast("Foto tersimpan, order selesai");await load()
+ }catch(err){toast("Foto gagal disimpan: "+(err.message||err)+". Coba lagi, atau pilih Selesai tanpa foto.",1)}finally{busy=false}};
+
+document.querySelectorAll(".nv").forEach(b=>b.onclick=()=>{tab=b.dataset.t;render();window.scrollTo(0,0)});
+$("q").oninput=render;$("rd").onchange=render;$("rd").value=today();
+$("fdr").onchange=e=>{drv=e.target.value;try{localStorage.setItem("drv",drv)}catch(x){}render()};
+$("fab").onclick=()=>$("sheet").classList.add("on");$("shx").onclick=()=>$("sheet").classList.remove("on");
+$("s1").onclick=()=>{$("s1").className="on";$("s2").className="";$("p1").style.display="block";$("p2").style.display="none"};
+$("s2").onclick=()=>{$("s2").className="on";$("s1").className="";$("p2").style.display="block";$("p1").style.display="none"};
+$("f_ll").oninput=()=>{$("llok").textContent=parseLoc($("f_ll").value)?"Titik terbaca":""};
+$("here").onclick=async()=>{toast("Membaca lokasi…");const p=await pos();if(p){$("f_ll").value=p.lat+", "+p.lng;$("llok").textContent="Titik terbaca";toast("Lokasi terbaca")}else toast("Lokasi tidak terbaca. Izinkan akses lokasi di browser.",1)};
+
+function newRow(name,addr,raw,driver,note,tel,at){const p=parseLoc(raw),o={name,addr,tel:tel||"",driver:driver||"",note:note||"",st:"baru",at};if(p){o.lat=p.lat;o.lng=p.lng}else if(raw)o.link=raw;return o}
+
+$("save").onclick=async()=>{
+ const name=$("f_nm").value.trim(),addr=$("f_ad").value.trim(),raw=$("f_ll").value.trim();
+ if(!name||(!addr&&!raw))return toast("Isi tujuan, lalu alamat atau titik lokasi.",1);
+ try{ok(await sb.from("orders").insert(newRow(name,addr,raw,$("f_dr").value.trim(),$("f_nt").value.trim(),$("f_tl").value.trim(),Date.now())));
+  ["f_nm","f_tl","f_ad","f_ll","f_nt"].forEach(i=>$(i).value="");$("llok").textContent="";$("sheet").classList.remove("on");toast("Order tersimpan");await load()}catch(err){toast("Order gagal disimpan: "+(err.message||err),1)}
+};
+
+$("bsave").onclick=async()=>{
+ const ls=$("bulk").value.split("\n").map(s=>s.trim()).filter(Boolean),def=$("b_dr").value.trim(),t=Date.now(),rows=[];
+ if(!ls.length)return toast("Isi minimal satu baris.",1);
+ ls.forEach((l,i)=>{const p=l.split("|").map(s=>s.trim());if(!p[0]||(!p[1]&&!p[2]))return;rows.push(newRow(p[0],p[1]||"",p[2]||"",p[3]||def,p[4]||"","",t+ls.length-i))});
+ if(!rows.length)return toast("Tidak ada baris yang valid. Isi minimal Tujuan dan Alamat.",1);
+ try{ok(await sb.from("orders").insert(rows));toast(rows.length+" dari "+ls.length+" order tersimpan"+(rows.length<ls.length?", sebagian baris dilewati":""),rows.length<ls.length);if(rows.length===ls.length)$("bulk").value="";$("sheet").classList.remove("on");await load()}catch(err){toast("Order gagal disimpan: "+(err.message||err),1)}
+};
+
+$("rs").onclick=()=>wipe(orders.filter(o=>(o.st==="selesai"||o.st==="gagal")&&dOf(o)===($("rd").value||today())),"selesai/gagal tanggal "+($("rd").value||today()));
+$("ra").onclick=()=>wipe(orders.slice(),"(semua)");
+
+$("pdf").onclick=async()=>{
+ if(busy)return;const d=$("rd").value||today();
+ const rows=orders.filter(o=>(!drv||o.driver===drv)&&dOf(o)===d).sort((a,b)=>(a.driver||"").localeCompare(b.driver||"")||a.at-b.at);
+ if(!rows.length)return toast("Tidak ada order pada tanggal ini.",1);
+ if(!window.jspdf)return toast("Pembuat PDF gagal dimuat. Muat ulang halaman.",1);
+ busy=true;$("pdf").disabled=true;toast("Menyusun PDF…");
+ try{
+  const doc=new window.jspdf.jsPDF({unit:"mm",format:"a4"}),W=210,H=297,M=15;let y=M,n=0;
+  doc.setFont("helvetica","bold");doc.setFontSize(15);doc.text("DRIVER BBS - Rekap Pengantaran "+d+" - "+(drv||"Semua driver"),M,y+4);y+=10;
+  doc.setFont("helvetica","normal");doc.setFontSize(10);doc.text("Total order: "+rows.length+"  |  Selesai: "+rows.filter(o=>o.st==="selesai").length+"  |  Gagal: "+rows.filter(o=>o.st==="gagal").length,M,y);y+=8;
+  for(const o of rows){
+   n++;let img=null;
+   if(o.hasPhoto){try{const data=await getPhoto(o.id),im=data&&await loadImg(data);if(im)img={data,w:im.width,h:im.height}}catch(e){}}
+   let iw=0,ih=0;if(img){iw=W-2*M;ih=iw*img.h/img.w;if(ih>110){ih=110;iw=ih*img.w/img.h}}
+   const t1=doc.splitTextToSize(n+". "+o.name+" (Driver: "+(o.driver||"-")+")",W-2*M),
+         t2=doc.splitTextToSize((o.addr||"")+(o.note?" | Catatan: "+o.note:""),W-2*M),
+         t3="Mulai "+hm(o.startAt)+"  |  Selesai/Tutup "+hm(o.doneAt)+"  |  Status: "+o.st.toUpperCase()+(o.failReason?" ("+o.failReason+")":"");
+   if(y+(t1.length+t2.length+1)*5+(img?ih:6)+8>H-M){doc.addPage();y=M}
+   doc.setFont("helvetica","bold");doc.text(t1,M,y+4);y+=t1.length*5+1;
+   doc.setFont("helvetica","normal");doc.text(t2,M,y+4);y+=t2.length*5;doc.text(t3,M,y+4);y+=7;
+   if(img){doc.addImage(img.data,"JPEG",M,y,iw,ih);y+=ih+4}else{doc.text(o.hasPhoto?"(foto gagal dimuat)":o.st==="gagal"?"(Kendala: "+o.failReason+")":"(tanpa foto)",M,y+3);y+=6}
+   doc.setDrawColor(200);doc.line(M,y,W-M,y);y+=5}
+  doc.save("rekap-"+d+"-"+(drv||"semua").replace(/\W+/g, "-")+".pdf");toast("PDF siap diunduh")
+ }catch(err){toast("PDF gagal dibuat: "+(err.message||err),1)}
+ finally{busy=false;$("pdf").disabled=false}
+};
+
+$("out").onclick=()=>location.reload();
+testCfg();
+</script></body></html>
